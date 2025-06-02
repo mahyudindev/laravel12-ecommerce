@@ -10,27 +10,28 @@ export default function PelangganDashboard() {
             <Head title="My Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-8 bg-gray-50 dark:bg-gray-900">
                 <HomeCarousel 
+                    autoSlideInterval={2500}
                     slides={[
                         {
                             id: 1,
-                            image: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=1200',
-                            title: 'Up to 10% off Voucher',
-                            description: 'Shop the latest iPhone 14 Series with exclusive discounts',
-                            link: '/products/iphone'
+                            image: '/images/1.png',
+                            title: 'Tas Tote Eksklusif',
+                            description: 'Temukan gaya sempurna untuk aktivitas harianmu dengan koleksi terbaik kami',
+                            link: '/products/tote-bag-1'
                         },
                         {
                             id: 2,
-                            image: 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?q=80&w=1200',
-                            title: 'Summer Collection',
-                            description: 'Discover our new summer tech lineup with special offers',
-                            link: '/products/summer'
+                            image: '/images/2.png',
+                            title: 'Tren 2025',
+                            description: 'Tampil stylish dengan desain terkini yang selalu up-to-date',
+                            link: '/products/tote-bag-2'
                         },
                         {
                             id: 3,
-                            image: 'https://images.unsplash.com/photo-1600003263720-95b45a4035d5?q=80&w=1200',
-                            title: 'Gaming Accessories',
-                            description: 'Level up your gaming experience with premium accessories',
-                            link: '/products/gaming'
+                            image: '/images/3.png',
+                            title: 'Edisi Spesial',
+                            description: 'Koleksi terbatas dengan bahan premium dan desain eksklusif',
+                            link: '/products/tote-bag-3'
                         },
                     ]}
                 />

@@ -42,7 +42,7 @@ export interface User {
     updated_at: string;
     avatar?: string;
     pelanggan?: Pelanggan;
-    nama?: string; // Added nama attribute that comes from the pelanggan relationship
+    nama?: string;
 }
 
 export interface Pelanggan {
@@ -55,6 +55,33 @@ export interface Pelanggan {
     tipe_alamat: 'Rumah' | 'Kantor' | 'Kos';
     kota?: string;
     kode_pos?: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Produk {
+    produk_id: number;
+    kode_produk: string;
+    nama_produk: string;
+    deskripsi?: string;
+    harga: number;
+    berat: number;
+    kategori?: string;
+    stok: number;
+    aktif: boolean;
+    thumbnail_url?: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface ProdukGambar {
+    gambar_id: number;
+    produk_id: number;
+    nama_file: string;
+    url: string;
+    ukuran: number;
+    urutan: number;
+    is_thumbnail: boolean;
     created_at: string;
     updated_at: string;
 }

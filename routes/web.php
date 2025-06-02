@@ -4,12 +4,25 @@ use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
-// Redirect authenticated users to their respective dashboards
+// Serve product images directly
+Route::get('/storage/produk/{filename}', function ($filename) {
+    $path = 'produk/' . $filename;
+    
+    if (!Storage::disk('public')->exists($path)) {
+        abort(404);
+    }
+    
+    return response()->file(Storage::disk('public')->path($path), [
+        'Cache-Control' => 'public, max-age=86400',
+    ]);
+});
+
 Route::get('/dashboard', function (Request $request) {
     $user = $request->user();
     
@@ -25,16 +38,6 @@ Route::get('/dashboard', function (Request $request) {
     };
 })->middleware(['auth', 'verified']);
 
-// Admin routes
-Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('admin/dashboard');
-    })->name('admin.dashboard');
-    
-    // Add more admin routes here
-});
-
-// Owner routes
 Route::prefix('owner')->middleware(['auth', 'verified', 'role:owner'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('owner/dashboard');
@@ -43,7 +46,6 @@ Route::prefix('owner')->middleware(['auth', 'verified', 'role:owner'])->group(fu
     // Add more owner routes here
 });
 
-// Pelanggan routes
 Route::prefix('pelanggan')->middleware(['auth', 'verified', 'role:pelanggan'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('pelanggan/dashboard');
@@ -52,5 +54,6 @@ Route::prefix('pelanggan')->middleware(['auth', 'verified', 'role:pelanggan'])->
     // Add more pelanggan routes here
 });
 
+require __DIR__.'/admin.php';
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

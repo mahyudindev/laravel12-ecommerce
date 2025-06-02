@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useCallback } from 'react';
 
 interface CarouselProps {
     slides: {
@@ -9,16 +10,53 @@ interface CarouselProps {
         description: string;
         link: string;
     }[];
+    autoSlideInterval?: number;
 }
 
-export function HomeCarousel({ slides }: CarouselProps) {
+export function HomeCarousel({ slides, autoSlideInterval = 5000 }: CarouselProps) {
     const [current, setCurrent] = React.useState(0);
+    const [isPaused, setIsPaused] = React.useState(false);
 
-    const prev = () => setCurrent((current) => (current === 0 ? slides.length - 1 : current - 1));
-    const next = () => setCurrent((current) => (current === slides.length - 1 ? 0 : current + 1));
+    const prev = useCallback(() => 
+        setCurrent((current) => (current === 0 ? slides.length - 1 : current - 1)),
+        [slides.length]
+    );
+
+    const next = useCallback(() => 
+        setCurrent((current) => (current === slides.length - 1 ? 0 : current + 1)),
+        [slides.length]
+    );
+
+    // Auto slide functionality
+    useEffect(() => {
+        if (isPaused) return;
+        
+        const slideInterval = setInterval(() => {
+            next();
+        }, autoSlideInterval);
+
+        return () => clearInterval(slideInterval);
+    }, [current, isPaused, autoSlideInterval, next]);
+
+    const goToSlide = (index: number) => {
+        setCurrent(index);
+    };
+
+    // Pause auto slide on hover
+    const handleMouseEnter = () => {
+        setIsPaused(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsPaused(false);
+    };
 
     return (
-        <div className="relative w-full overflow-hidden rounded-lg">
+        <div 
+            className="relative w-full overflow-hidden rounded-lg"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        >
             <div className="relative h-[300px] md:h-[400px] w-full">
                 {slides.map((slide, index) => (
                     <div
@@ -32,17 +70,14 @@ export function HomeCarousel({ slides }: CarouselProps) {
                             backgroundPosition: 'center',
                         }}
                     >
-                        <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent">
+                        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent">
                             <div className="flex h-full flex-col justify-center p-8 text-white">
-                                <h2 className="mb-2 text-2xl font-bold md:text-4xl">{slide.title}</h2>
-                                <p className="mb-4 max-w-md text-lg">{slide.description}</p>
-                                <a
-                                    href={slide.link}
-                                    className="inline-flex w-fit items-center rounded-md bg-white px-6 py-3 font-medium text-black transition-colors hover:bg-gray-100"
-                                >
-                                    Shop Now
-                                    <ChevronRight className="ml-2 h-4 w-4" />
-                                </a>
+                                <h2 className="mb-3 text-3xl font-bold leading-tight md:text-5xl lg:text-6xl">
+                                    {slide.title}
+                                </h2>
+                                <p className="mb-0 max-w-2xl text-lg md:text-xl">
+                                    {slide.description}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -69,11 +104,12 @@ export function HomeCarousel({ slides }: CarouselProps) {
                 {slides.map((_, index) => (
                     <button
                         key={index}
-                        onClick={() => setCurrent(index)}
-                        className={`h-2 w-2 rounded-full ${
-                            index === current ? 'bg-white' : 'bg-white/50'
+                        onClick={() => goToSlide(index)}
+                        className={`h-2 w-2 rounded-full transition-all ${
+                            index === current ? 'bg-white w-6' : 'bg-white/50 w-2'
                         }`}
                         aria-label={`Go to slide ${index + 1}`}
+                        aria-current={index === current}
                     />
                 ))}
             </div>

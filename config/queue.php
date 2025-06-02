@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_CONNECTION', 'database'),
+    'default' => 'sync',
 
     /*
     |--------------------------------------------------------------------------
@@ -86,8 +86,8 @@ return [
     */
 
     'batching' => [
-        'database' => env('DB_CONNECTION', 'sqlite'),
-        'table' => 'job_batches',
+        'database' => null,
+        'table' => null,
     ],
 
     /*
