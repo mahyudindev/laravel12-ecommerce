@@ -1,5 +1,6 @@
 import { LucideIcon } from 'lucide-react';
 import type { Config } from 'ziggy-js';
+import { Page as InertiaPage } from '@inertiajs/core';
 
 export interface Auth {
     user: User;
@@ -20,6 +21,13 @@ export interface NavItem {
     href: string;
     icon?: LucideIcon | null;
     isActive?: boolean;
+}
+
+// Extend the Inertia Page type with our custom page props
+declare module '@inertiajs/core' {
+    interface PageProps {
+        [key: string]: unknown;
+    }
 }
 
 export interface SharedData {

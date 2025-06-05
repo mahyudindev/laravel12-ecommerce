@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PelangganController;
 use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\ProdukGambarController;
+use App\Http\Controllers\Admin\ProdukKategoriController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,6 +18,15 @@ Route::prefix('admin')
         Route::get('/dashboard', function () {
             return Inertia::render('admin/dashboard');
         })->name('dashboard');
+        
+        // Admin users management
+        Route::resource('users', AdminController::class)->names('users');
+        
+        // Pelanggan management (no create/edit as pelanggan register themselves)
+        Route::resource('pelanggan', PelangganController::class)
+            ->names('pelanggan')
+            ->parameters(['pelanggan' => 'user'])
+            ->except(['create', 'edit', 'store', 'update']);
         
         // Produk management
         Route::resource('produk', ProdukController::class);

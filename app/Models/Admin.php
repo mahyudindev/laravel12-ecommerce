@@ -32,7 +32,6 @@ class Admin extends Model
         'user_id',
         'nama_lengkap',
         'no_telepon',
-        'foto_profil',
         'jabatan',
         'deskripsi_jabatan',
     ];

@@ -1,6 +1,6 @@
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Transition } from '@headlessui/react';
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
 import DeleteUser from '@/components/delete-user';
@@ -73,12 +73,25 @@ export default function Profile({
         initialFormData.deskripsi_jabatan = profileData?.deskripsi_jabatan || '';
     }
     
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm(initialFormData);
+    const { data, setData, errors, processing, recentlySuccessful } = useForm(initialFormData);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-
-        patch(route('profile.update'), {
+        
+        router.patch(route('profile.update'), {
+            nama_lengkap: data.nama_lengkap,
+            email: data.email,
+            no_telepon: data.no_telepon,
+            ...(userRole === 'pelanggan' ? {
+                alamat: data.alamat,
+                tipe_alamat: data.tipe_alamat,
+                kota: data.kota,
+                kode_pos: data.kode_pos,
+            } : {}),
+            ...(userRole === 'admin' || userRole === 'owner' ? {
+                deskripsi_jabatan: data.deskripsi_jabatan || '',
+            } : {}),
+        }, {
             preserveScroll: true,
         });
     };
@@ -150,6 +163,8 @@ export default function Profile({
                                 />
                                 <InputError className="mt-2" message={errors.no_telepon} />
                             </div>
+                            
+
                             
                             {/* Role-specific fields */}
                             {userRole === 'pelanggan' && (

@@ -11,12 +11,11 @@ class CreatePenggunaTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('pengguna', function (Blueprint $table) {
-            $table->id('pengguna_id');
+        Schema::create('pelanggan', function (Blueprint $table) {
+            $table->id('pelanggan_id');
             $table->foreignId('user_id')->constrained('users', 'user_id')->onDelete('cascade');
             $table->string('nama_lengkap');
             $table->string('no_telepon', 20);
-            $table->string('foto_profil')->nullable();
             $table->text('alamat');
             $table->enum('tipe_alamat', ['Rumah', 'Kantor', 'Kos']);
             $table->string('kota')->nullable();

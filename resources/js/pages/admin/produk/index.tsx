@@ -235,11 +235,11 @@ export default function Index({ produk, filters, kategoriOptions }: Props) {
                         <TableCell className="text-center">{item.stok}</TableCell>
                         <TableCell className="text-center">
                           <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                            Boolean(item.status_aktif) // Mengkonversi ke boolean untuk memastikan konsistensi
+                            item.status_aktif // Mengkonversi ke boolean untuk memastikan konsistensi
                               ? 'bg-green-50 text-green-800 dark:bg-green-900/20 dark:text-green-400'
                               : 'bg-red-50 text-red-800 dark:bg-red-900/20 dark:text-red-400'
                           }`}>
-                            {Boolean(item.status_aktif) ? 'Aktif' : 'Non-aktif'}
+                            {item.status_aktif ? 'Aktif' : 'Non-aktif'}
                           </span>
                         </TableCell>
                         <TableCell className="text-right">

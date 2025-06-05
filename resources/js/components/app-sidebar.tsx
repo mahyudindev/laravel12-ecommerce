@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarGroup, SidebarGroupLabel } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, ShoppingCart, Users, Package, Building2 } from 'lucide-react';
+import { LayoutGrid, ShoppingCart, Users, Package, UserRoundCog } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -13,18 +13,19 @@ const mainNavItems: NavItem[] = [
         href: '/dashboard',
         icon: LayoutGrid,
     },
-    {
-        title: 'Transaksi',
-        href: '/transaksi',
-        icon: ShoppingCart,
-    },
+    // Temporarily disabled until route is implemented
+    // {
+    //     title: 'Transaksi',
+    //     href: '/transaksi',
+    //     icon: ShoppingCart,
+    // },
 ];
 
 const dataMasterItems: NavItem[] = [
     {
         title: 'Admin',
         href: '/admin/users',
-        icon: Building2,
+        icon: UserRoundCog,
     },
     {
         title: 'Pelanggan',

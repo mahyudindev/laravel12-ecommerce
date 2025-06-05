@@ -16,7 +16,6 @@ class CreateAdminTable extends Migration
             $table->foreignId('user_id')->constrained('users', 'user_id')->onDelete('cascade');
             $table->string('nama_lengkap');
             $table->string('no_telepon', 20);
-            $table->string('foto_profil')->nullable();
             $table->enum('jabatan', ['admin', 'owner']);
             $table->text('deskripsi_jabatan')->nullable();
             $table->timestamps();
