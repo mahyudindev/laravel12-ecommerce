@@ -64,14 +64,27 @@ class UserRoleSeeder extends Seeder
             'is_active' => true,
         ]);
         
-        Pelanggan::create([
+        $pelanggan = Pelanggan::create([
             'user_id' => $pelangganUser->user_id,
             'nama_lengkap' => 'Pelanggan User',
             'no_telepon' => '081234567892',
-            'alamat' => 'Jl. Contoh No. 123',
+        ]);
+        
+        // Buat alamat untuk pelanggan
+        $pelanggan->alamat()->create([
+            'label_alamat' => 'Rumah',
+            'nama_penerima' => 'Pelanggan User',
+            'no_telepon' => '081234567892',
+            'provinsi_id' => 6, // ID DKI Jakarta
+            'provinsi' => 'DKI Jakarta',
+            'kota_id' => 151, // ID Kota Jakarta Selatan
+            'kota' => 'Jakarta Selatan',
+            'kecamatan_id' => 2076, // ID Kecamatan Kebayoran Baru
+            'kecamatan' => 'Kebayoran Baru',
+            'kode_pos' => '12120',
+            'alamat_lengkap' => 'Jl. Contoh No. 123, RT 01 RW 02',
+            'is_utama' => true,
             'tipe_alamat' => 'Rumah',
-            'kota' => 'Jakarta',
-            'kode_pos' => '12345',
         ]);
         
         // Re-enable foreign key checks

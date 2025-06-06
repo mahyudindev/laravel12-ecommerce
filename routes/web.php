@@ -126,9 +126,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
             });
             
             // Checkout routes
-            Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'index'])
-                ->name('checkout');
+            Route::prefix('checkout')->group(function () {
+                Route::get('/', [\App\Http\Controllers\Checkout\CheckoutController::class, 'index'])
+                    ->name('checkout');
                 
+                // Alamat routes
+                Route::get('/provinces', [\App\Http\Controllers\Checkout\CheckoutController::class, 'getProvinces']);
+                Route::get('/cities', [\App\Http\Controllers\Checkout\CheckoutController::class, 'getCities']);
+                Route::get('/subdistricts', [\App\Http\Controllers\Checkout\CheckoutController::class, 'getSubdistricts']);
+                
+                // Ongkos kirim
+                Route::post('/calculate-shipping', [\App\Http\Controllers\Checkout\CheckoutController::class, 'calculateShippingCost']);
+                
+                // Simpan alamat
+                Route::post('/save-address', [\App\Http\Controllers\Checkout\CheckoutController::class, 'saveAddress']);
+            });
+            
             // Add more customer routes here
         });
 });

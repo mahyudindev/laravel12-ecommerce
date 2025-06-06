@@ -33,11 +33,24 @@ class Pelanggan extends Model
         'user_id',
         'nama_lengkap',
         'no_telepon',
-        'alamat',
-        'tipe_alamat',
-        'kota',
-        'kode_pos',
     ];
+    
+    /**
+     * Get all of the alamat for the Pelanggan
+     */
+    public function alamat()
+    {
+        return $this->hasMany(AlamatPelanggan::class, 'pelanggan_id', 'pelanggan_id');
+    }
+    
+    /**
+     * Get the user's default alamat
+     */
+    public function alamatUtama()
+    {
+        return $this->hasOne(AlamatPelanggan::class, 'pelanggan_id', 'pelanggan_id')
+            ->where('is_utama', true);
+    }
     
     /**
      * The attributes that should be guarded.
@@ -45,6 +58,21 @@ class Pelanggan extends Model
      * @var array<string>
      */
     protected $guarded = [];
+    
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::created(function ($pelanggan) {
+            // Set alamat utama jika belum ada
+            if (!$pelanggan->alamat()->where('is_utama', true)->exists()) {
+                $pelanggan->alamat()->update(['is_utama' => false]);
+            }
+        });
+    }
 
     /**
      * Get the user that owns the pelanggan.

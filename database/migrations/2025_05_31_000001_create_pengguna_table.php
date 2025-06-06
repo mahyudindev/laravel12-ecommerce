@@ -16,10 +16,6 @@ class CreatePenggunaTable extends Migration
             $table->foreignId('user_id')->constrained('users', 'user_id')->onDelete('cascade');
             $table->string('nama_lengkap');
             $table->string('no_telepon', 20);
-            $table->text('alamat');
-            $table->enum('tipe_alamat', ['Rumah', 'Kantor', 'Kos']);
-            $table->string('kota')->nullable();
-            $table->string('kode_pos', 10)->nullable();
             $table->timestamps();
             
             // Add index for better performance
